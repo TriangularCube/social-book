@@ -79,6 +79,9 @@ switch ($action){
     case 'search':
         include( 'view/search.php' );
         break;
+    case 'view_account':
+        include( 'view/viewAccount.php' );
+        break;
     case 'share-post':
         $content = filter_input( INPUT_POST, "post-text" );
 

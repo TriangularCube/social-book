@@ -9,7 +9,7 @@
 $term = filter_input( INPUT_GET, "term" );
 
 if( $term !== null && strlen( $term ) > 0 ){
-    $users = findUsers( $database, $term );
+    $results = findUsers( $database, $term );
 }
 
 ?>
@@ -36,18 +36,18 @@ if( $term !== null && strlen( $term ) > 0 ){
                 <br>
 
                 <?php
-                    if( count( $users ) > 0 ){
-                        foreach( $users as $user ):
-                            $userImagePath = $user->imagePath == null ? DEFAULT_IMAGE_PATH : $user->imagePath; ?>
+                    if( isset( $results ) && count( $results ) > 0 ){
+                        foreach($results as $result ):
+                            $userImagePath = $result->imagePath == null ? DEFAULT_IMAGE_PATH : $result->imagePath; ?>
 
                 <div class="media box">
                     <figure class="media-left">
                         <p class="image is-64x64">
-                            <img src=<?php echo $userImagePath ?>>
+                            <img src="<?php echo $userImagePath ?>">
                         </p>
                     </figure>
                     <div class="media-content">
-                        <h4 class="subtitle"><?php echo $user->name; ?></h4>
+                        <a href=".?action=view_account&user=<?php echo $result->id; ?>"><h4 class="subtitle has-text-info"><?php echo $result->name; ?></h4></a>
                     </div>
                 </div>
 

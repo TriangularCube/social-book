@@ -8,6 +8,7 @@
 
 require_once( 'userFetch.php' );
 require_once( 'user.php' );
+require_once( 'post.php' );
 
 function createUser( $db, $name, $email, $password, $confirmPassword ){
 
@@ -52,6 +53,7 @@ function checkEmailRegistered($db, $email ){
     $stmt-> execute();
 
     $list = $stmt->fetchAll();
+    $stmt->closeCursor();
 
     if( count( $list ) == 0 ){
         return true;
@@ -103,6 +105,7 @@ function fetchUser( $db, $email ){
     $stmt->execute();
 
     $resultUsers = $stmt->fetchAll();
+    $stmt->closeCursor();
 
     $fetch = new userFetch();
 
@@ -118,6 +121,25 @@ function fetchUser( $db, $email ){
     }
 
     return $fetch;
+}
+
+function fetchUserByID( $db, $id ){
+
+    $query = 'SELECT * FROM users WHERE id = :id';
+
+    $stmt = $db->prepare( $query );
+
+    $stmt->bindValue( ':id', $id );
+    $stmt->execute();
+
+    $user = $stmt->fetch();
+
+    $stmt->closeCursor();
+
+    $user = new user( $user );
+
+    return $user;
+
 }
 
 function postTo( $db, $userFromID, $userToID, $content ){
@@ -148,6 +170,7 @@ function findUsers( $db, $term ){
     $stmt->execute();
 
     $results = $stmt->fetchAll();
+    $stmt->closeCursor();
 
     $users = array();
 
@@ -156,5 +179,28 @@ function findUsers( $db, $term ){
     }
 
     return $users;
+
+}
+
+function fetchPostsFor( $db, $userID ){
+
+    $query = 'SELECT * FROM posts WHERE user_to = :user';
+
+    $stmt = $db->prepare($query);
+    $stmt->bindValue( ':user', $userID );
+
+    $stmt->execute();
+
+    $results = $stmt->fetchAll();
+
+    $stmt->closeCursor();
+
+    $posts = array();
+
+    foreach( $results as $result ){
+        $posts[] = new post( $result, null );
+    }
+
+    return $posts;
 
 }
