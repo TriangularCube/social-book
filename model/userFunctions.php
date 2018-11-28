@@ -22,7 +22,7 @@ function createUser( $db, $name, $email, $password, $confirmPassword ){
 
     $passHash = password_hash( $password, PASSWORD_DEFAULT );
 
-    $query = 'INSERT INTO users
+    $query = 'INSERT INTO `users`
                 ( name, email, password )
               VALUES 
                 ( :name, :email, :password )';
@@ -34,8 +34,9 @@ function createUser( $db, $name, $email, $password, $confirmPassword ){
     $stmt->bindValue( ':password', $passHash );
 
     $stmt->execute();
+    $stmt->closeCursor();
 
-    getUserByEmail( $db, $email, $password );
+    //getUserByEmail( $db, $email, $password );
 
     return true;
 
@@ -117,4 +118,43 @@ function fetchUser( $db, $email ){
     }
 
     return $fetch;
+}
+
+function postTo( $db, $userFromID, $userToID, $content ){
+
+    $query = 'INSERT INTO posts
+                ( user_from, user_to, content, time )
+              VALUES
+                ( :user_from, :user_to, :content, NOW() )';
+
+    $stmt = $db->prepare( $query );
+
+    $stmt->bindValue( ":user_from", $userFromID );
+    $stmt->bindValue( ":user_to", $userToID );
+    $stmt->bindValue( ":content", $content );
+
+    $stmt->execute();
+    $stmt->closeCursor();
+
+}
+
+function findUsers( $db, $term ){
+
+    $query = 'SELECT * FROM users WHERE name LIKE :term';
+
+    $stmt = $db->prepare($query);
+
+    $stmt->bindValue( ':term', '%'.$term.'%' );
+    $stmt->execute();
+
+    $results = $stmt->fetchAll();
+
+    $users = array();
+
+    foreach( $results as $user ){
+        $users[] = new user( $user );
+    }
+
+    return $users;
+
 }

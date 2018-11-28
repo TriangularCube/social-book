@@ -6,11 +6,7 @@
  * Time: 3:31 PM
  */
 
-$userImagePath = 'sb_images/generic-profile.jpg';
-
-if( $user->imagePath !== null ){
-    $userImagePath = $user->imagePath;
-}
+require_once( 'model/userImagePath.php' );
 ?>
 
 <body>
@@ -18,32 +14,12 @@ if( $user->imagePath !== null ){
 <div class="container">
     <div class="tile is-ancestor" style="padding-top: 2rem">
 
-        <div class="tile is-parent is-2">
-            <div class="tile is-child">
-
-                <div class="box">
-                    <figure class="img is-128x128">
-                        <img src="<?php echo $userImagePath ?>">
-                    </figure>
-
-                    <h5 class="subtitle has-text-centered"><?php echo $user->name ?></h5>
-                </div>
-
-                <div style="padding-top: 1rem">
-                    <aside class="menu box">
-                        <ul class="menu-list">
-                            <li><a>Timeline</a></li>
-                            <li><a>Search</a></li>
-                        </ul>
-                    </aside>
-                </div>
-
-            </div>
-        </div>
+        <?php include( 'view/fragments/leftBar.php' ); ?>
 
         <div class="tile is-parent">
             <div class="tile is-child">
 
+                <!-- Share Post -->
                 <article class="media box">
                     <figure class="media-left">
                         <p class="image is-64x64">
@@ -51,8 +27,29 @@ if( $user->imagePath !== null ){
                         </p>
                     </figure>
                     <div class="media-content">
-                        Lorem ipsum
+                        <form action="index.php" method="post" id="share-post">
+                            <input type="hidden" name="action" value="share-post">
+                            <div class="content">
+                                <textarea class="textarea" placeholder="Share Something..." name="post-text" id="post-text"></textarea>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-right">
+                                    <a class="level-item">
+                                        <!--<span class="icon is-medium"><i class="fas fa-heart"></i></span>-->
+                                        <input type="submit" class="button is-info" id="submitButton" disabled>
+                                    </a>
+                                </div>
+                            </nav>
+                        </form>
                     </div>
+                </article>
+
+                <!-- Divider? -->
+                <br>
+
+                <!-- Posts -->
+                <article class="media box">
+
                 </article>
 
             </div>
@@ -60,5 +57,20 @@ if( $user->imagePath !== null ){
 
     </div>
 </div>
+
+<script>
+let submitButton = document.getElementById( 'submitButton' );
+let postTextArea = document.getElementById( 'post-text' );
+
+postTextArea.addEventListener( "input", () => {
+    let postString = postTextArea.value;
+
+    if( postString.length > 0 ){
+        submitButton.disabled = false;
+    } else {
+        submitButton.disabled = true;
+    }
+});
+</script>
 
 </body>

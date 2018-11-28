@@ -14,8 +14,8 @@ if( $email == null ){
 }
 
 // TODO check against DB
-include_once( 'model/database.php' );
-include_once( 'model/userFunctions.php' );
+require_once( 'model/database.php' );
+require_once( 'model/userFunctions.php' );
 
 $result = checkEmailRegistered( $database, $email );
 

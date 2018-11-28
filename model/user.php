@@ -18,7 +18,9 @@ class user
         $this->id = $userArray['id'];
         $this->email = $userArray['email'];
         $this->name = $userArray['name'];
-        $this->imagePath = $userArray['path'];
+        if( isset( $userArray['path'] ) ){
+            $this->imagePath = $userArray['path'];
+        }
 
     }
 }

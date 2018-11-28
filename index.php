@@ -1,7 +1,7 @@
 <?php
 // Database
-include_once( 'model/database.php' );
-include_once( 'model/userFunctions.php' );
+require_once( 'model/database.php' );
+require_once( 'model/userFunctions.php' );
 
 // Start session management with a persistent cookie
 $lifetime = 60 * 60 * 24 * 14;    // 2 weeks in seconds
@@ -22,10 +22,13 @@ if( $action == 'view_front_page' && isset( $_SESSION['user'] ) ){
     $action = 'view_timeline';
 }
 
-include_once( 'view/header.html' );
+include_once('view/fragments/header.html');
 if( isset( $_SESSION['user'] ) ){
     // Only include navbar if logged in
-    include_once( 'view/navbar.php' );
+    include_once('view/fragments/navbar.php');
+
+    // Also pull the user out
+    $user = $_SESSION['user'];
 }
 
 
@@ -69,11 +72,20 @@ switch ($action){
 
         break;
     case 'view_timeline':
-        $user = $_SESSION['user'];
-
         include( 'view/viewTimeline.php' );
 
         // TODO View account timeline
+        break;
+    case 'search':
+        include( 'view/search.php' );
+        break;
+    case 'share-post':
+        $content = filter_input( INPUT_POST, "post-text" );
+
+        postTo( $database, $user->id, $user->id, $content );
+
+        header( 'Location: .' );
+
         break;
     case 'logout':
         unset( $_SESSION['user'] );
@@ -82,4 +94,4 @@ switch ($action){
 }
 
 // Footer
-include_once( 'view/footer.html' );
+include_once('view/fragments/footer.html');
