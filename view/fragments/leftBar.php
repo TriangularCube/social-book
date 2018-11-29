@@ -5,6 +5,7 @@
  * Date: 11/28/2018
  * Time: 12:51 AM
  */
+
 require_once( 'model/userImagePath.php' );
 ?>
 
@@ -16,7 +17,7 @@ require_once( 'model/userImagePath.php' );
                 <img src="<?php echo $userImagePath ?>">
             </figure>
 
-            <h5 class="subtitle has-text-centered"><?php echo $user->name ?></h5>
+            <h5 class="subtitle has-text-centered"><?php echo $pathUser->name ?></h5>
         </div>
 
         <div style="padding-top: 1rem">

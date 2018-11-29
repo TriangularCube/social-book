@@ -5,12 +5,14 @@
  * Date: 11/26/2018
  * Time: 3:31 PM
  */
+
+$pathUser = $user;
 ?>
 
 <body>
 
 <div class="container">
-    <div class="tile is-ancestor" style="padding-top: 2rem">
+    <div class="tile is-ancestor" style="padding-top: 2rem; padding-bottom: 2rem">
 
         <?php include( 'view/fragments/leftBar.php' ); ?>
 

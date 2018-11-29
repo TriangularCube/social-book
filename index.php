@@ -24,6 +24,8 @@ if( $action == 'view_front_page' && isset( $_SESSION['user'] ) ){
 
 include_once('view/fragments/header.html');
 if( isset( $_SESSION['user'] ) ){
+    // Mode set in navbar.php
+
     // Only include navbar if logged in
     include_once('view/fragments/navbar.php');
 
@@ -73,8 +75,6 @@ switch ($action){
         break;
     case 'view_timeline':
         include( 'view/viewTimeline.php' );
-
-        // TODO View account timeline
         break;
     case 'search':
         include( 'view/search.php' );
@@ -84,10 +84,27 @@ switch ($action){
         break;
     case 'share-post':
         $content = filter_input( INPUT_POST, "post-text" );
+        $postTo = filter_input( INPUT_POST, 'post-to' );
 
-        postTo( $database, $user->id, $user->id, $content );
+        /* Last ditch sanity check */
+        if( !isset(  $postTo ) ){
+            $postTo = $user->id;
+        }
 
-        header( 'Location: .' );
+        postTo( $database, $user->id,$postTo, $content );
+
+        $lastAction = filter_input( INPUT_POST, 'last-action' );
+
+        switch( $lastAction ){
+            case 'view_account':
+                // TODO
+                $lastUserID = filter_input( INPUT_POST, 'last-user' );
+                header( 'Location: .?action=view_account&user=' . $lastUserID );
+                break;
+            case 'view_timeline':
+                header( 'Location: .' );
+                break;
+        }
 
         break;
     case 'logout':

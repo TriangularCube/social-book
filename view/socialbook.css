@@ -8,3 +8,8 @@
 
     background: cornflowerblue;
 }
+
+.tie.is-ancestor{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}

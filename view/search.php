@@ -12,12 +12,13 @@ if( $term !== null && strlen( $term ) > 0 ){
     $results = findUsers( $database, $term );
 }
 
+$pathUser = $user;
 ?>
 
 <body>
 
 <div class="container">
-    <div class="tile is-ancestor" style="padding-top: 2rem">
+    <div class="tile is-ancestor" style="padding-top: 2rem; padding-bottom: 2rem">
 
         <?php include_once( 'view/fragments/leftBar.php' ); ?>
 

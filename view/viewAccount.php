@@ -6,16 +6,7 @@
  * Time: 8:05 PM
  */
 
-require_once( 'model/userFunctions.php' );
-
-$userID = filter_input( INPUT_GET, 'user' );
-
-if( $userID === null || strlen( $userID ) < 1 ){
-    header( 'Location: .' );
-}
-
-$viewingUser = fetchUserByID( $database, $userID );
-$posts = fetchPostsFor( $database, $viewingUser->id );
+require_once( 'model/getViewingAccountUser.php' );
 
 ?>
 
@@ -23,9 +14,12 @@ $posts = fetchPostsFor( $database, $viewingUser->id );
 
 <div class="container">
 
-    <div class="tile is-ancestor" style="padding-top: 2rem">
+    <div class="tile is-ancestor" style="padding-top: 2rem; padding-bottom: 2rem">
 
-        <?php include( 'view/fragments/leftBar.php' ); ?>
+        <?php
+            $pathUser = $viewingUser;
+            include( 'view/fragments/leftBar.php' );
+        ?>
 
         <div class="tile is-parent">
             <div class="tile is-child">
@@ -40,7 +34,7 @@ $posts = fetchPostsFor( $database, $viewingUser->id );
                 <!-- TODO Fetch posts -->
                 <?php
                     foreach( $posts as $post ){
-                        $pathUser = fetchUserByID( $database, $post->toUserID );
+                        $pathUser = fetchUserByID( $database, $post->fromUserID );
                         include( 'model/userImagePath.php' );
                         include( 'view/fragments/postView.php' );
                     }

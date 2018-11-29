@@ -8,6 +8,9 @@
 
 $pathUser = $user;
 require_once( 'model/userImagePath.php' );
+if( $action == 'view_account' ){
+    require_once( 'model/getViewingAccountUser.php' );
+}
 ?>
 
 <!-- Share Post -->
@@ -20,6 +23,20 @@ require_once( 'model/userImagePath.php' );
     <div class="media-content">
         <form action="index.php" method="post" id="share-post">
             <input type="hidden" name="action" value="share-post">
+
+            <!-- If we're posting from viewing_account, then give the posting id. Otherwise give the current user id -->
+            <input type="hidden" name="post-to" value=<?php echo isset( $viewingUser ) ? $viewingUser->id : $user->id; ?>>
+
+            <input type="hidden" name="last-action" value="<?php echo $action; ?>">
+            <?php
+                switch( $action ){
+                    case 'view_account':
+            ?>
+            <input type="hidden" name="last-user" value=<?php echo $viewingUser->id ?>>
+            <?php
+                        break;
+                }
+            ?>
             <div class="content">
                 <textarea class="textarea" placeholder="Share Something..." name="post-text" id="post-text"></textarea>
             </div>

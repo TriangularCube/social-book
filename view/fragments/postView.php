@@ -16,7 +16,20 @@
     <div class="media-content">
 
         <!-- Deal with different posting types, and different name displays -->
-        <h4 class="has-text-info">Name</h4>
+        <?php
+            // If the poster is the person we're seeing
+            if( isset( $viewingUser ) ){
+                if(  $viewingUser->id === $pathUser->id ){
+                    $display = $viewingUser->name;
+                } else {
+                    $display = $pathUser->name . " -> " . $viewingUser->name;
+                }
+            } else {
+                // TODO
+                $display = "Name";
+            }
+        ?>
+        <h4 class="has-text-info"><?php echo $display ?></h4>
 
         <p class="content" style="padding-top: .4rem">
             <?php echo $post->content; ?>
