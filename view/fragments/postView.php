@@ -29,7 +29,8 @@
                 $display = "Name";
             }
         ?>
-        <h4 class="has-text-info"><?php echo $display ?></h4>
+        <h4 class="has-text-info"><?php echo $display; ?></h4>
+        <h6 class="has-text-dark is-small"><?php echo $post->time; ?></h6>
 
         <p class="content" style="padding-top: .4rem">
             <?php echo $post->content; ?>

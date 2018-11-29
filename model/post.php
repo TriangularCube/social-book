@@ -12,6 +12,7 @@ class post{
     public $fromUserID;
     public $toUserID;
     public $content;
+    public $time;
     public $images = null;
 
     function __construct( $post, $images ){
@@ -19,6 +20,7 @@ class post{
         $this->fromUserID = $post['user_from'];
         $this->toUserID = $post['user_to'];
         $this->content = $post['content'];
+        $this->time = $post['time'];
 
         if( $images !== null ){
             $this->images = $images;
