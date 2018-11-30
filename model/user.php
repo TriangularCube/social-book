@@ -6,6 +6,8 @@
  * Time: 8:39 PM
  */
 
+require_once( 'model/database.php' );
+
 class user
 {
     public $id = null;
@@ -18,8 +20,8 @@ class user
         $this->id = $userArray['id'];
         $this->email = $userArray['email'];
         $this->name = $userArray['name'];
-        if( isset( $userArray['path'] ) ){
-            $this->imagePath = $userArray['path'];
+        if( isset( $userArray['user_image'] ) && $userArray['user_image'] !== null ){
+            $this->imagePath = $userArray['user_image'];
         }
 
     }

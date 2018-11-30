@@ -122,6 +122,10 @@ require_once( 'model/userFetch.php' );
                                 match</p>
                         </div>
 
+                        <?php if( isset( $error ) ): ?>
+                            <h5 class="subtitle has-text-danger"><?php echo $error; ?></h5>
+                        <?php endif; ?>
+
                         <!-- Submit -->
                         <div class="field">
                             <p class="control">

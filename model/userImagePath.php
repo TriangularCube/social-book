@@ -10,6 +10,6 @@ require_once( 'model/constants.php' );
 
 $userImagePath = DEFAULT_IMAGE_PATH;
 
-if( isset($pathUser) && $pathUser->imagePath !== null ){
+if( isset($pathUser) && $pathUser->imagePath != null ){
     $userImagePath = $pathUser->imagePath;
 }

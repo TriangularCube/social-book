@@ -18,18 +18,16 @@
         <!-- Deal with different posting types, and different name displays -->
         <?php
             // If the poster is the person we're seeing
-            if( isset( $viewingUser ) ){
-                if(  $viewingUser->id === $pathUser->id ){
-                    $display = $viewingUser->name;
-                } else {
-                    $display = $pathUser->name . " -> " . $viewingUser->name;
-                }
-            } else {
-                // TODO
-                $display = "Name";
-            }
+            $displayFrom = $fromUser->name;
+            $displayTo = $toUser->name;
         ?>
-        <h4 class="has-text-info"><?php echo $display; ?></h4>
+        <h4>
+            <?php if( $fromUser->id !== $toUser->id ): ?>
+            <a class="has-text-info" href=".?action=view_account&user=<?php echo $fromUser->id; ?>"><?php echo $displayFrom; ?></a>
+                <i class="fas fa-arrow-right"></i>
+            <?php endif; ?>
+            <a class="has-text-info" href=".?action=view_account&user=<?php echo $toUser->id; ?>"><?php echo $displayTo; ?></a>
+        </h4>
         <h6 class="has-text-dark is-small"><?php echo $post->time; ?></h6>
 
         <p class="content" style="padding-top: .4rem">

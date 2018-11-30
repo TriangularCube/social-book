@@ -6,7 +6,11 @@
  * Time: 3:31 PM
  */
 
+require_once( 'model/userFunctions.php' );
+
 $pathUser = $user;
+$results = fetchPostsForTimeline( $database, $user->id );
+
 ?>
 
 <body>
@@ -25,9 +29,17 @@ $pathUser = $user;
                 <br>
 
                 <!-- Posts -->
-                <article class="media box">
+                <?php
+                    foreach( $results as $result ){
+                        $post = new post( $result, null );
+                        $pathUser = fetchUserByID( $database, $post->fromUserID );
 
-                </article>
+                        include( 'model/userImagePath.php' );
+
+                        $fromUser = fetchUserByID( $database, $post->fromUserID );
+                        $toUser = fetchUserByID( $database, $post->toUserID );
+                        include( 'view/fragments/postView.php' );
+                } ?>
 
             </div>
         </div>

@@ -49,10 +49,18 @@ switch ($action){
         $confirmPassword = filter_input( INPUT_POST, 'confirm_password' );
 
         if( !createUser( $database, $name, $email, $password, $confirmPassword ) ){
-            echo "User not created: " . $name . " : " . $email . " : " . $password;
+            echo "User not created with Name: " . $name . ", and Email: " . $email;
+            include( 'view/loginPage.php.php' );
+            exit;
         } else {
-            $user = fetchUser($database, $email );
-            $_SESSION['user'] = $user;
+            $fetch = fetchUser( $database, $email );
+            if( !$fetch->success ){
+                $error = $fetch->error;
+                include( 'view/loginPage.php' );
+                exit;
+            }
+
+            $_SESSION['user'] = new user( $fetch->user );
             header("Location: ." );
         }
 
@@ -105,6 +113,38 @@ switch ($action){
                 header( 'Location: .' );
                 break;
         }
+
+        break;
+    case 'settings':
+        include( 'view/settings.php' );
+        break;
+    case 'become_friends':
+        $lastUser = filter_input( INPUT_POST, 'lastUser' );
+
+        becomeFriends( $database, $user->id, $lastUser );
+        header( 'Location: .?action=view_account&user=' . $lastUser );
+        break;
+    case 'unfriend':
+        $lastUser = filter_input( INPUT_POST, 'lastUser' );
+
+        removeFriendship( $database, $user->id, $lastUser );
+        header( 'Location: .?action=view_account&user=' . $lastUser );
+        break;
+    case 'upload_user_image':
+        $uploadDir = 'user_images/';
+        $uploadFile = $uploadDir . uniqid( '' ) . "." . pathinfo( $_FILES['image_upload']['name'], PATHINFO_EXTENSION );
+
+        $error = "";
+
+        if( !move_uploaded_file( $_FILES['image_upload']['tmp_name'], $uploadFile ) ){
+            $error = "&error=1";
+            print_r( $_FILES );
+        }
+
+        updateUserImage( $database, $user->id, $uploadFile );
+        $user = fetchUserByID( $database, $user->id );
+        $_SESSION['user'] = $user;
+        header( 'Location: .?action=settings' . $error );
 
         break;
     case 'logout':

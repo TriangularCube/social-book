@@ -15,4 +15,4 @@ if( $userID === null || strlen( $userID ) < 1 ){
 }
 
 $viewingUser = fetchUserByID( $database, $userID );
-$posts = fetchPostsFor( $database, $viewingUser->id );
+$posts = fetchPostsForAccount( $database, $viewingUser->id );
