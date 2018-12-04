@@ -7,7 +7,7 @@
  */
 
 $pathUser = $user;
-require_once( 'model/userImagePath.php' );
+require( 'model/userImagePath.php' ); // CANNOT REQUIRE_ONCE HERE, idiot
 if( $action == 'view_account' ){
     require_once( 'model/getViewingAccountUser.php' );
 }
@@ -17,7 +17,7 @@ if( $action == 'view_account' ){
 <article class="media box">
     <figure class="media-left">
         <p class="image is-64x64">
-            <img src=<?php echo $userImagePath ?>>
+            <img src=<?php echo $userImagePath; ?>>
         </p>
     </figure>
     <div class="media-content">

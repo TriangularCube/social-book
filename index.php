@@ -49,13 +49,13 @@ switch ($action){
         $confirmPassword = filter_input( INPUT_POST, 'confirm_password' );
 
         if( !createUser( $database, $name, $email, $password, $confirmPassword ) ){
-            echo "User not created with Name: " . $name . ", and Email: " . $email;
-            include( 'view/loginPage.php.php' );
+            $createError = "Something went wrong, and the user was not created";
+            include( 'view/loginPage.php' );
             exit;
         } else {
             $fetch = fetchUser( $database, $email );
             if( !$fetch->success ){
-                $error = $fetch->error;
+                $createError = $fetch->error;
                 include( 'view/loginPage.php' );
                 exit;
             }

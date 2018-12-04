@@ -24,13 +24,11 @@ $displayFriendship = $viewingUser->id !== $user->id;
             <div class="tile is-child">
 
                 <?php include( 'view/fragments/sharePost.php' ); ?>
-                <!-- TODO Still need to take into account which page we loaded so we hit the right page on submit -->
 
                 <!-- Divider? -->
                 <br>
 
                 <!-- Posts -->
-                <!-- TODO Fetch posts -->
                 <?php
                     foreach( $posts as $post ){
                         $pathUser = fetchUserByID( $database, $post->fromUserID );

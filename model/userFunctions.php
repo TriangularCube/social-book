@@ -6,6 +6,7 @@
  * Time: 2:59 AM
  */
 
+require_once( 'model/constants.php' );
 require_once( 'userFetch.php' );
 require_once( 'user.php' );
 require_once( 'post.php' );

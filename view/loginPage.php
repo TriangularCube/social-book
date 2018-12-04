@@ -6,6 +6,7 @@
  * Time: 1:46 PM
  */
 require_once( 'model/userFetch.php' );
+require_once( 'model/constants.php' );
 ?>
 
 <body>
@@ -62,7 +63,7 @@ require_once( 'model/userFetch.php' );
                             </p>
                         </div>
                         <?php
-                        if( $error == FETCH_NO_USER || $error == FETCH_PASSWORD_MISMATCH ):?>
+                        if( isset( $error ) && ( $error == FETCH_NO_USER || $error == FETCH_PASSWORD_MISMATCH ) ):?>
                             <p class="help is-danger" id="login_helper">No account associated with that email, or the password is incorrect</p>
                         <?php endif ?>
                     </form>
@@ -122,8 +123,8 @@ require_once( 'model/userFetch.php' );
                                 match</p>
                         </div>
 
-                        <?php if( isset( $error ) ): ?>
-                            <h5 class="subtitle has-text-danger"><?php echo $error; ?></h5>
+                        <?php if( isset( $createError ) ): ?>
+                            <h5 class="subtitle has-text-danger"><?php echo $createError; ?></h5>
                         <?php endif; ?>
 
                         <!-- Submit -->
